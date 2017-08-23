@@ -12,7 +12,7 @@ interface Mw {
  * @param {Koa.Context} ctx контекст
  */
 export default async (middleware: Mw, ctx: Koa.Context) => {
-  return new Promise((resolve: any, reject: any): void => { 
+  return new Promise((resolve, reject): void => { 
     // смотрим роут и текущий урл
     middleware.routes.find(async (path: string): Promise<void> => {
       // если роуты равны выходим из цикла и резолвим

@@ -1,4 +1,4 @@
 export default interface parentPromise { 
-  resolve: typeof Promise.resolve,
-  reject: typeof Promise.reject
+  resolve: (value?: {} | PromiseLike<any> | undefined) => void,
+  reject: (value?: {} | PromiseLike<any> | undefined) => void
 }
