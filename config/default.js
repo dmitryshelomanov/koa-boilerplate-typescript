@@ -15,7 +15,9 @@ module.exports = {
   middleware: {
 
   },
-  policy: [],
+  policy: [
+ 
+  ],
   db: {
     host: 'localhost',
     user: 'root',
