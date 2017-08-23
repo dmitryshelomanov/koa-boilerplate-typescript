@@ -19,6 +19,9 @@ class DB
     });
   }
 
+  /**
+   * @return {DB} instanse
+   */
   public static instanse()
   { 
     if (this.inst) { 
@@ -26,10 +29,15 @@ class DB
     }
     return this.inst = new DB();
   }
-
+  
+  /**
+   * 
+   * @param sql 
+   * @param args 
+   */
   public query(sql: string, args?: (string[]|number[]))
   { 
-    return new Promise((res, rej) => { 
+    return new Promise((res: typeof Promise.resolve, rej: typeof Promise.reject) => { 
       this.connection.query(sql, args, (err, rows) => { 
         if (err) throw err;
         res(rows);

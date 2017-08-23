@@ -7,17 +7,13 @@ module.exports = {
     'bodyParser',
     'session',
     'templates',
+    'passport-initialize',
+    'passport-session',
     'flash',
     'csrf'
   ],
   middleware: {
-    auth: {
-      routes: ['/'],
-      hundlers: [
-        auth.default,
-        auth.default
-      ]
-    }
+
   },
   policy: [],
   db: {

@@ -31,8 +31,10 @@
     "@types/koa-bodyparser": "^3.0.23",
     "@types/koa-generic-session": "^1.0.2",
     "@types/koa-logger": "^2.0.2",
+    "@types/koa-passport": "^2.0.4",
     "@types/koa-router": "^7.0.22",
     "@types/mysql": "0.0.34",
+    "@types/passport-local": "^1.0.30",
     "@types/pug": "^2.0.4"
   }
 }

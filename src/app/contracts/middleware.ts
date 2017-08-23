@@ -1,4 +1,4 @@
 export default interface parentPromise { 
-  resolve: Function,
-  reject: Function
+  resolve: typeof Promise.resolve,
+  reject: typeof Promise.reject
 }

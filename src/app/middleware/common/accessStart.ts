@@ -1,5 +1,6 @@
 import * as Koa from 'koa';
 import * as Config from 'config';
+import parentPromise from '../../contracts/middleware';
 
 interface Mw { 
   routes: any,
@@ -11,21 +12,18 @@ interface Mw {
  * @param {Koa.Context} ctx контекст
  */
 export default async (middleware: Mw, ctx: Koa.Context) => {
-  return new Promise((resolve: any, reject: any): void => { 
+  return new Promise((resolve: typeof Promise.resolve, reject: typeof Promise.resolve): void => { 
     // смотрим роут и текущий урл
     middleware.routes.find(async (path: string): Promise<void> => {
       // если роуты равны выходим из цикла и резолвим
       if (path === ctx.request.url) {
-        // может быть массив хандлеров или один хандлер. Смотрим на это выходим из цикла и резолвим
-        if (middleware.hundlers instanceof Array) {
-          middleware.hundlers.forEach(async (hundler: Function) => {
-            await hundler(ctx, {resolve, reject});
-          });
-          return;
-        }
-        // да параметр не next, а resolve - иначе ошикба. А так коректно отрабатывет
-        await middleware.hundlers(ctx, {resolve, reject});
+
+        middleware.hundlers.forEach(async (hundler: (ctx: Koa.Context, parentPromise: parentPromise) => Promise<any>) => {
+          await hundler(ctx, { resolve, reject })
+            .catch(err => ctx.throw(500));
+        });
         return;
+        
       }
       resolve();
     });

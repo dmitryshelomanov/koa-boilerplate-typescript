@@ -10,6 +10,9 @@ exports.init = (app: Koa) => app.use(async (ctx: Koa.Context, next: () => Promis
     },
     old(key: string) {
       return ctx.old(key);
+    },
+    user() { 
+      return ctx.user;
     }
   }
 

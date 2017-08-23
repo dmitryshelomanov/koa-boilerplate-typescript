@@ -1,10 +1,23 @@
 import DB from '../helpers/DB';
 
-namespace User {
+export const User = {
   
-  export const getAll = async () => { 
+  async getAll ()  { 
     return await DB.query("select * from users");
+  },
+  
+  async findOne (id: number): Promise<any>  { 
+    return await DB.query("select * from users where id = ? limit 1", [id]);
+  },
+
+  async chekUser (login: string, password: string): Promise<any> { 
+    return await DB.query("select * from users where login = ? and password = ? limit 1", [login, password]);
   }
+
 }
 
-export default User;
+export interface IUser { 
+  id: number,
+  login: string,
+  password: string
+}
