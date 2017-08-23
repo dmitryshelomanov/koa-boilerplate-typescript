@@ -9,7 +9,7 @@ import Policy from '../../helpers/policy';
 export default (router: Router, args: object = {}): void => { 
 
   router.get('/', async (ctx: Koa.Context, next: () => Promise<any>): Promise<any> => {
-    if (Policy.can('users/readBlock')) { 
+    if (await Policy.can('users/readBlock')) { 
       console.log('user can read block');
     }
     ctx.body = ctx.render('index');

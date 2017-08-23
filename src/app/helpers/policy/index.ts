@@ -3,19 +3,19 @@ import * as Config from 'config';
 
 export default {
 
-  can(call: string, args?: any[]): boolean {
-    return policy(call, args);
+  async can(call: string, args?: any[]): Promise<boolean>{
+    return await policy(call, args);
   },
 
-  cannot(call: string, args?: any[]): boolean {
-    return !policy(call, args);
+  async cannot(call: string, args?: any[]): Promise<boolean> {
+    return await !policy(call, args);
   }
 
 };
 
-const policy = (call: string, args?: any[]): boolean => {
+const policy = async (call: string, args?: any[]): Promise<boolean> => {
   try {
-    return require(`../../policy/${call}`).default(args);
+    return await require(`../../policy/${call}`).default(args);
   } catch (err) { 
     throw err;
   }
