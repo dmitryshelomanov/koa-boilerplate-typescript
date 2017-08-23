@@ -18,7 +18,7 @@ exports.init = (app: Koa) => app.use(async (ctx: Koa.Context, next: () => Promis
   delete ctx.session.messages;
 
   ctx.old = (key: string): any => {
-    return messages[key] || "";
+    return messages[key] || null;
   };
 
   ctx.setFlash = (data: object[]): any => {
@@ -28,6 +28,29 @@ exports.init = (app: Koa) => app.use(async (ctx: Koa.Context, next: () => Promis
       });
     }
   };
+
+  ctx.flash = (type: string, html: any): void => { 
+    
+    if (!ctx.session) return;
+
+    if (type === undefined) {
+      return messages || {};
+    }
+    if (html === undefined) {
+      return messages[type] || [];
+    }
+
+    if (!ctx.session.messages) {
+      ctx.session.messages = {};
+    }
+
+    if (!ctx.session.messages[type]) {
+      ctx.session.messages[type] = [];
+    }
+
+    ctx.session.messages[type].push(html);
+
+  }
 
   await next();
 

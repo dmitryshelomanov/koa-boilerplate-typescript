@@ -9,11 +9,10 @@ import Policy from '../../helpers/policy';
 export default (router: Router, args: object = {}): void => { 
 
   router.get('/', async (ctx: Koa.Context, next: () => Promise<any>): Promise<any> => {
-    if (await Policy.can('users/readBlock')) { 
-      console.log('user can read block');
+    if (ctx.isUnauthenticated()) { 
+      return ctx.body = ctx.render('index');
     }
-    ctx.body = ctx.render('index');
-    await next();
+    ctx.body = ctx.req.user;
   });
 
   router.post('/login', async (ctx: Koa.Context, next: () => Promise<any>): Promise<any> => { 
