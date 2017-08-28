@@ -6,7 +6,7 @@
 * url /api/token\user {token} вернет юзера по токену
 * Проверить токен можно в любом месте где есть Koa.Context через метод ctx.request.body.getUser(token)
 */
-/// пример middleware Auth
+// пример middleware Auth
 exports.init = (ctx: Koa.Context): Promise<any> => { 
   return new Promise(async (res, rej) => { 
     let { getUser, token } = ctx.request.body;
@@ -16,6 +16,10 @@ exports.init = (ctx: Koa.Context): Promise<any> => {
     res({status: "ok", code: 200});
   });
 }
+```
+
+### Политики
+```js
 /**
 * Политики
 * can(полика, Koa.Context, ...args) // все политики регистрируются в config/default.js
