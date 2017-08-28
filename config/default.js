@@ -14,9 +14,6 @@ module.exports = {
     'tokens'
     // 'csrf'
   ],
-  middleware: {
-
-  },
   policy: [
  
   ],

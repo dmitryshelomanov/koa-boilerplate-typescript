@@ -3,8 +3,6 @@ import * as Koa from 'koa';
 
 import Web from './web';
 
-
-
 const router = new Router();
 
 Web(router, {
