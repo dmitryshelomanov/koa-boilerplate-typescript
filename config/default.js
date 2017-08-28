@@ -9,8 +9,10 @@ module.exports = {
     'templates',
     'passport-initialize',
     'passport-session',
+    'cors',
     'flash',
-    'csrf'
+    'tokens'
+    // 'csrf'
   ],
   middleware: {
 

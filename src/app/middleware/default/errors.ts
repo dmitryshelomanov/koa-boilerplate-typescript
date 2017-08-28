@@ -5,6 +5,7 @@ exports.init = (app: Koa) => {
     try {
       await next();
     } catch (err) {
+      console.log(err)
       throw err;
     }
   });

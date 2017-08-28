@@ -1,7 +1,7 @@
-declare module 'koa' { 
+declare module 'http' { 
   interface IncomingMessage { 
     user?:any
   }
 }
 
-export declare namespace koa {}
+export declare namespace http {}

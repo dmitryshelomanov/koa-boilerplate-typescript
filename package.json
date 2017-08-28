@@ -11,9 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "config": "^1.26.2",
+    "kcors": "^2.2.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-convert": "^1.2.0",
+    "koa-cors": "0.0.16",
     "koa-csrf": "^3.0.6",
     "koa-favicon": "^2.0.0",
     "koa-generic-session": "^2.0.0",
@@ -21,7 +23,9 @@
     "koa-passport": "^3.0.0",
     "koa-router": "^7.2.1",
     "koa-static": "^4.0.1",
+    "koa2-cors": "^2.0.3",
     "mysql": "^2.14.1",
+    "passport-jwt": "^3.0.0",
     "passport-local": "^1.0.0",
     "pug": "^2.0.0-rc.3"
   },
@@ -34,6 +38,7 @@
     "@types/koa-passport": "^2.0.4",
     "@types/koa-router": "^7.0.22",
     "@types/mysql": "0.0.34",
+    "@types/passport-jwt": "^2.0.23",
     "@types/passport-local": "^1.0.30",
     "@types/pug": "^2.0.4"
   }

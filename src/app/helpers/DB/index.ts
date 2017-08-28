@@ -35,7 +35,7 @@ class DB
    * @param sql 
    * @param args 
    */
-  public query(sql: string, args?: (string[]|number[]))
+  public query(sql: string, args?: (any[]))
   { 
     return new Promise((res: typeof Promise.resolve, rej: typeof Promise.reject) => { 
       this.connection.query(sql, args, (err, rows) => { 
