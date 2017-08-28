@@ -1,6 +1,5 @@
 import * as Koa from 'koa';
 
-
 import createToken from './createToken';
 
 import * as Router from 'koa-router';
@@ -30,6 +29,8 @@ export default class Initial extends createToken {
   public initialize() {
     
     return (ctx: Koa.Context, next: () => Promise<any>) => { 
+      
+      ctx.request.body.getUser = this.getUserMethod;
 
       this.router.post('/api/token', async (ctx, next): Promise<any> => { 
         let { login, password } = ctx.request.body;

@@ -5,9 +5,14 @@ import * as passport from 'koa-passport';
 import { User } from '../../models/Users';
 import Policy from '../../helpers/policy';
 
-export default (router: Router, args: object = {}): void => { 
+import Args from '../../contracts/routerArgs';
 
-  router.get('/', async (ctx: Koa.Context, next: () => Promise<any>): Promise<any> => {
+import combineMiddleware from '../../helpers/combineMiddleware';
+
+export default (router: Router, args: Args): void => { 
+
+  router.get('/', combineMiddleware(args.middleware), async (ctx: Koa.Context, next: () => Promise<any>): Promise<any> => {
+    
     if (ctx.request.headers.origin) { 
       console.log(ctx.request.headers.origin);
       return ctx.body = "is origin get";
@@ -16,13 +21,12 @@ export default (router: Router, args: object = {}): void => {
       return ctx.body = "auth";
     }
     ctx.body = ctx.render('index');
+      
   });
 
-  router.post('/post', async (ctx: Koa.Context, next: () => Promise<any>): Promise<any> => {
-    if (ctx.request.headers.origin) { 
-      return ctx.body = "is origin post";
-    }
-    ctx.body = "home";
+  router.post('/post',  combineMiddleware(args.middleware), async (ctx: Koa.Context, next: () => Promise<any>): Promise<any> => {
+    let { user } = ctx.request.body;
+    ctx.body = user;
   });
   
   router.post('/login', async (ctx: Koa.Context, next: () => Promise<any>): Promise<any> => { 
