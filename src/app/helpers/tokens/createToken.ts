@@ -1,59 +1,66 @@
 import * as crypto from 'crypto';
+import DB from '../../models/DB';
 
 export default class createToken {
-  
-  private checkUserMethod: any;
-  public checkTokenMethod: any;
-  private insertTokenMethod: any;
-  private updateTokenMethod: any;
 
-  private tokenLimit: number = 60;
-
-  public constructor(
-    chekUser: (login: string, password: string) => any,
-    chekToken: (user_id: number) => any,
-    insertToken: (user_id: number, token: string) => any,
-    updateToken: (user_id: number, token: string) => any,
-  ) { 
-    this.checkUserMethod = chekUser;
-    this.checkTokenMethod = chekToken;
-    this.insertTokenMethod = insertToken;
-    this.updateTokenMethod = updateToken;
-  }
-
-  public async createOrGetToken(login: string, password: string): Promise<any> { 
-
-    let user = await this.checkUserMethod(login, password);
-
-    if (user.length === 0) return false;
-
-    let token = await this.generateToken();
-
-    let oldToken = await this.checkTokenMethod(user[0].id);
-
-    if (oldToken.length === 0) {
-      let insert = await this.insertTokenMethod(user[0].id, token);
+  public async createOrGetToken(login: string, password: string): Promise<any> {
+    
+    let user = await this.checkUser(login, password);
+    if (!user) return false;
+    let newToken = await this.generateToken();
+    let oldToken = await this.checkToken(user.id);
+    if (!oldToken) { 
+      await this.insertToken(user.id, newToken);
       return {
-        user: user[0],
-        token
+        user,
+        token: newToken
       };
     }
 
-    if (Number(oldToken[0].created_at) + this.tokenLimit > Date.now()) {
-      return {
-        user: user[0],
-        token: oldToken[0].token
-      };
-    }
-
-    let newToken = await this.updateTokenMethod(user[0].id, token);
-
+    await this.updatetoken(user.id, newToken);
     return {
-      user: user[0],
-      token
+      user,
+      token: newToken
     };
 
   }
+
+  public async getUser(token: string) { 
+    return await DB.knex("users")
+      .where("token", "=", token)
+      .first();
+  }
+
+  public async checkUser(login: string, password: string) {
+    return await DB.knex("users")
+      .where("login", "=", login)
+      .andWhere("password", "=", password)
+      .first();
+  }
+
+  public async checkToken(user_id: number) { 
+    return await DB.knex("token")
+      .where("user_id", "=", user_id)
+      .first();
+  }
+
+  public async updatetoken(user_id: number, token: string) { 
+    return await DB.knex("token")
+      .where("user_id", "=", user_id)
+      .update({
+        token
+      });
+  }
+
+  public async insertToken(user_id: number, token: string) { 
+    return await DB.knex("token")  
+      .insert({
+        user_id,
+        token,
+        created_at: Date.now()
+      });
+  }
+
 
   public async generateToken(): Promise<any> { 
     return await crypto.randomBytes(32).toString("hex");

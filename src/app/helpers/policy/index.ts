@@ -1,4 +1,3 @@
-import { IUser } from '../../models/Users';
 import IPOlicy from '../../contracts/policy/IPolicy';
 import * as Config from 'config';
 import * as Koa from 'koa';

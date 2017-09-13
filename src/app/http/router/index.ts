@@ -3,10 +3,8 @@ import * as Koa from 'koa';
 
 import Web from './web';
 
-const router = new Router();
+const rootRouter = new Router();
 
-Web(router, {
-  middleware: ['auth']
-});
+rootRouter.use(Web(rootRouter));
 
-export default router.routes();
+export default rootRouter.routes();

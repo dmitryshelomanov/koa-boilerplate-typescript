@@ -7,8 +7,8 @@ module.exports = {
     'bodyParser',
     'session',
     'templates',
-    'passport-initialize',
-    'passport-session',
+    // 'passport-initialize',
+    // 'passport-session',
     'cors',
     'flash',
     'tokens'
@@ -17,12 +17,6 @@ module.exports = {
   policy: [
  
   ],
-  db: {
-    host: 'localhost',
-    user: 'root',
-    password: 'mysql',
-    database: 'test'
-  },
   port: 3000,
   root: process.cwd()
 }

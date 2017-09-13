@@ -7,33 +7,23 @@ import * as Router from 'koa-router';
 export default class Initial extends createToken {
 
   private router: Router;
-  private getUserMethod: any;
 
-  constructor(
-    checkUser: (login: string, password: string) => any,
-    checkToken: (user_id: number) => any,
-    insertToken: (user_id: number, token: string) => any,
-    updateToken: (user_id: number, token: string) => any,
-    getUser: (token: string) => any,
-  ) { 
-    super(
-      checkUser,
-      checkToken,
-      insertToken,
-      updateToken
-    );
-    this.router = new Router();
-    this.getUserMethod = getUser;
+  constructor() { 
+    super();
+    this.router = new Router({
+      prefix: '/api'
+    });
   }
 
   public initialize() {
     
     return (ctx: Koa.Context, next: () => Promise<any>) => { 
       
-      ctx.request.body.getUser = this.getUserMethod;
+      ctx.request.body.getUser = this.getUser;
 
-      this.router.post('/api/token', async (ctx, next): Promise<any> => { 
+      this.router.post('/token', async (ctx, next): Promise<any> => { 
         let { login, password } = ctx.request.body;
+        if (!login || !password) return ctx.throw(401);
         let data = await this.createOrGetToken(login, password);
         if (!data) { 
           return ctx.throw(401);
@@ -46,10 +36,10 @@ export default class Initial extends createToken {
       /**
        * Получить юзера по токену 
        */
-      this.router.post('/api/token/user', async (ctx, next): Promise<any> => { 
-        let user = await this.getUserMethod(ctx.request.body.token);
-        if (user.length === 0) return ctx.throw(401);
-        ctx.body = user[0];
+      this.router.post('/token/user', async (ctx, next): Promise<any> => { 
+        let user = await this.getUser(ctx.request.headers["x-token"]);
+        if (user === null) return ctx.throw(401);
+        ctx.body = user;
       });
 
       return this.router.routes()(ctx, next);
